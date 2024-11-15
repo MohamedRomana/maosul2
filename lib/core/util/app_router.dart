@@ -31,7 +31,6 @@ import '../../Features/start/languages/views/languages_view.dart';
 import '../../Features/start/on_boarding/views/on_boarding_view.dart';
 import '../../Features/start/splash/splash_view.dart';
 import '../../Features/start/types/types_view.dart';
-import '../../Features/stores_name/stores_name_view.dart';
 import '../location/location.dart';
 
 abstract class AppRouters {
@@ -143,10 +142,6 @@ abstract class AppRouters {
       GoRoute(
         path: kCategoriesGrideView,
         builder: (context, state) => const CategoriesGrideView(),
-      ),
-      GoRoute(
-        path: kStoresNameView,
-        builder: (context, state) => const StoresNameView(),
       ),
       GoRoute(
         path: kProfileEditView,

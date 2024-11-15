@@ -9,7 +9,6 @@ import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../core/constants.dart';
 import '../../../core/util/styles.dart';
 import '../../../core/widgets/observation_text_field.dart';
-import '../../home_layout/stores/widgets/product-rating.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
   const AddNoteBottomSheet({super.key});
@@ -71,7 +70,33 @@ class AddNoteBottomSheet extends StatelessWidget {
                                               color: kButtonColor,
                                             ),
                                           ),
-                                          const ProductRating(),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5.w, vertical: 3.h),
+                                            decoration: BoxDecoration(
+                                              color: kButtonColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(100.r),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.star,
+                                                  color: Color(0xffF9BF00),
+                                                  size: 20.5,
+                                                ),
+                                                SizedBox(width: 2.5.w),
+                                                Text(
+                                                  '3.9',
+                                                  style: Styles.textStyle12
+                                                      .copyWith(
+                                                          color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],

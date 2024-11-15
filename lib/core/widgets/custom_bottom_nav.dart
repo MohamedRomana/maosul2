@@ -41,6 +41,7 @@ class CustomBottomNav extends StatelessWidget {
               InkWell(
                 onTap: () {
                   AppCubit.get(context).changeScreenIndex(index: 0);
+                  AppCubit.get(context).storessData();
                   GoRouter.of(context).pushReplacement(AppRouters.kHomeLayout);
                 },
                 splashColor: Colors.transparent,
@@ -65,8 +66,7 @@ class CustomBottomNav extends StatelessWidget {
               InkWell(
                 onTap: () {
                   AppCubit.get(context).changeScreenIndex(index: 1);
-                  GoRouter.of(context)
-                      .pushReplacement(AppRouters.kHomeLayout);
+                  GoRouter.of(context).pushReplacement(AppRouters.kHomeLayout);
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

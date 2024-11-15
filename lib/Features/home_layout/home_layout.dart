@@ -40,6 +40,7 @@ class HomeLayout extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     AppCubit.get(context).changeScreenIndex(index: 0);
+                    AppCubit.get(context).storessData();
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,

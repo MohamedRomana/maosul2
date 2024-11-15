@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/Features/home_layout/stores/widgets/stores_list_view.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
-import '../../../core/util/app_router.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/custom_drawer.dart';
 
@@ -27,10 +25,7 @@ class StoresView extends StatelessWidget {
           ),
         ),
       ),
-      body: GestureDetector(
-          onTap: () =>
-              GoRouter.of(context).pushReplacement(AppRouters.kStoresNameView),
-          child: const StoresListView()),
+      body: const StoresListView(),
     );
   }
 }

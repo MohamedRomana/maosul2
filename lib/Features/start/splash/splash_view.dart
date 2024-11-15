@@ -21,11 +21,10 @@ class _SplashViewState extends State<SplashView>
     Future.delayed(
       const Duration(seconds: 3),
       () {
-        CacheHelper.getLang() != "" ?
-            // CacheHelper.getUserId() != ""?
-            // GoRouter.of(context).pushReplacement(AppRouters.kHomeLayout)
-          //  : 
-           GoRouter.of(context).pushReplacement(AppRouters.kTypesView)
+        CacheHelper.getLang() != ""
+            ? CacheHelper.getUserId() != ""
+                ? GoRouter.of(context).pushReplacement(AppRouters.kHomeLayout)
+                : GoRouter.of(context).pushReplacement(AppRouters.kTypesView)
             : GoRouter.of(context).pushReplacement(AppRouters.kOnBoardingView);
       },
     );

@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:maosul2/Features/home_layout/Home/widgets/categories_list.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
@@ -15,45 +16,82 @@ class CategoriesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.only(left: 23.w, right: 23.w, top: 26.h, bottom: 11.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(text: LocaleKeys.categories.tr()),
-              InkWell(
-                onTap: () =>
-                    GoRouter.of(context).push(AppRouters.kCategoriesView),
-                child: Text(
-                  LocaleKeys.viewall.tr(),
-                  style: Styles.textStyle12.copyWith(color: kButtonColor),
-                ),
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 23.w, right: 23.w, top: 26.h, bottom: 11.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText(text: LocaleKeys.categories.tr()),
+                  InkWell(
+                    onTap: () =>
+                        GoRouter.of(context).push(AppRouters.kCategoriesView),
+                    child: Text(
+                      LocaleKeys.viewall.tr(),
+                      style: Styles.textStyle12.copyWith(color: kButtonColor),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 50.h,
-          child: ListView.separated(
-            itemCount: 10,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => SizedBox(width: 10.w),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () =>
-                    AppCubit.get(context).changeScreenIndex(index: 0),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: const CategoriesList(),
-              );
-            },
-          ),
-        ),
-      ],
+            ),
+            SizedBox(
+              height: 50.h,
+              child: ListView.separated(
+                itemCount: AppCubit.get(context).sections.length,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (context, index) => SizedBox(width: 10.w),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      AppCubit.get(context).changeScreenIndex(index: 0);
+                      AppCubit.get(context).storessData(
+                        sectionId: AppCubit.get(context)
+                            .sections[index]["id"]
+                            .toString(),
+                      );
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: Container(
+                      height: 40.h,
+                      width: 105.w,
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: AppCubit.get(context).sections[index]
+                                ["image"],
+                            height: 25.h,
+                            width: 24.w,
+                            fit: BoxFit.fill,
+                            errorWidget: (context, url, error) =>
+                                const Center(child: Icon(Icons.error)),
+                          ),
+                          Text(
+                            AppCubit.get(context).sections[index]["title"],
+                            style: Styles.textStyle12.copyWith(
+                              color: kButtonColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

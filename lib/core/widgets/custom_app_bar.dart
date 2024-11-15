@@ -65,13 +65,44 @@ class CustomAppBar extends StatelessWidget {
                       const Spacer(),
                       widget ??
                           InkWell(
-                            onTap: () => GoRouter.of(context)
-                                .push(AppRouters.kNotificationView),
+                            onTap: () {
+                              AppCubit.get(context).showNotificationData();
+                              GoRouter.of(context)
+                                  .push(AppRouters.kNotificationView);
+                            },
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
-                            child: SvgPicture.asset(
-                              'assets/svg/ic_notifications_24px.svg',
-                              height: 25.h,
+                            child: Stack(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/svg/ic_notifications_24px.svg',
+                                  height: 25.h,
+                                ),
+                                Visibility(
+                                  visible:
+                                      AppCubit.get(context).notificationCount ==
+                                              0
+                                          ? false
+                                          : true,
+                                  child: PositionedDirectional(
+                                    end: 0,
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          color: kButtonColor,
+                                          shape: BoxShape.circle),
+                                      child: Text(
+                                        AppCubit.get(context)
+                                            .notificationCount
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 25.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                       widget1 ??
