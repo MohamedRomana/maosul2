@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maosul2/core/cubit/app_cubit.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
@@ -24,7 +25,7 @@ class UserDetails extends StatelessWidget {
             CustomTextField(
               horizontal: 10,
               vertical: 5,
-              hintText: 'اسلام أسامة هندام',
+              hintText: AppCubit.get(context).userInfo["first_name"],
               prefixIcon: const Icon(Icons.person),
               enabled: false,
               disabledBorder: OutlineInputBorder(
@@ -36,7 +37,7 @@ class UserDetails extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               horizontal: 10,
               vertical: 5,
-              hintText: 'benimaskim1994@gmail.com',
+              hintText: AppCubit.get(context).userInfo["email"],
               prefixIcon: const Icon(Icons.mail),
               enabled: false,
               disabledBorder: OutlineInputBorder(
@@ -48,7 +49,7 @@ class UserDetails extends StatelessWidget {
               keyboardType: TextInputType.phone,
               horizontal: 10,
               vertical: 5,
-              hintText: '+9662584258258',
+              hintText: "+${AppCubit.get(context).userInfo["full_phone"]}",
               prefixIcon: const Icon(Icons.phone_in_talk),
               enabled: false,
               disabledBorder: OutlineInputBorder(

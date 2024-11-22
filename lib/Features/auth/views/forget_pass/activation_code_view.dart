@@ -4,16 +4,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/Features/auth/data/auth_cubit.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/core/widgets/custom_text_field.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/assets_data.dart';
 import '../../../../core/util/styles.dart';
 import '../../../../core/widgets/flash_message.dart';
+import '../change_pass/change_password_view.dart';
 
 final _phoneController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
@@ -98,7 +98,8 @@ class ActivationCodeView extends StatelessWidget {
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is ForgetPassSuccess) {
-                     GoRouter.of(context).pushReplacement(AppRouters.kChangePasswordView);
+                    AppRouter.navigateAndPop(
+                        context, const ChangePasswordView());
                     _phoneController.clear();
                     forgetPassPhoneCode = "966";
                     showFlashMessage(

@@ -73,5 +73,6 @@
     "accept": "Accept",
     "order_details": "Order Details",
     "confirm_location": "Confirm Location",
-    "search": "Search"
+    "search": "Search",
+    "addorder": "Add Order"
 }

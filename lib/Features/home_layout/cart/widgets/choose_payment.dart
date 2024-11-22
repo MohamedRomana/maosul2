@@ -52,22 +52,22 @@ class ChoosePayment extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              LocaleKeys.cashondelivery.tr(),
-                              style: Styles.textStyle12
-                                  .copyWith(color: Colors.black),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.cashondelivery.tr(),
+                            style: Styles.textStyle12
+                                .copyWith(color: Colors.black),
+                          ),
+                          Container(
+                            height: 14.h,
+                            width: 14.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: kButtonColor),
                             ),
-                            Container(
-                              height: 14.h,
-                              width: 14.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: kButtonColor),
-                              ),
-                              child: Center(
-                                  child: Container(
+                            child: Center(
+                              child: Container(
                                 height: 10.h,
                                 width: 10.w,
                                 decoration: BoxDecoration(
@@ -76,14 +76,16 @@ class ChoosePayment extends StatelessWidget {
                                         AppCubit.get(context).paymentIndex == 0
                                             ? kButtonColor
                                             : Colors.transparent),
-                              )),
-                            )
-                          ]),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const Divider(
                     thickness: 1,
-                    color: Color(0xff154479),
+                    color: Colors.grey,
                   ),
                   InkWell(
                     onTap: () {
@@ -94,22 +96,22 @@ class ChoosePayment extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              LocaleKeys.electronicpayment.tr(),
-                              style: Styles.textStyle12
-                                  .copyWith(color: Colors.black),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.electronicpayment.tr(),
+                            style: Styles.textStyle12
+                                .copyWith(color: Colors.black),
+                          ),
+                          Container(
+                            height: 14.h,
+                            width: 14.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: kButtonColor),
                             ),
-                            Container(
-                              height: 14.h,
-                              width: 14.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: kButtonColor),
-                              ),
-                              child: Center(
-                                  child: Container(
+                            child: Center(
+                              child: Container(
                                 height: 10.h,
                                 width: 10.w,
                                 decoration: BoxDecoration(
@@ -118,14 +120,14 @@ class ChoosePayment extends StatelessWidget {
                                         AppCubit.get(context).paymentIndex == 1
                                             ? kButtonColor
                                             : Colors.transparent),
-                              )),
-                            )
-                          ]),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 13.h,
-                  )
+                  SizedBox(height: 13.h)
                 ],
               ),
             ),

@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:maosul2/Features/auth/views/login/login_view.dart';
 import 'package:maosul2/Features/start/types/widgets/types_button.dart';
-import 'package:maosul2/core/util/app_router.dart';
 import 'package:maosul2/core/util/assets_data.dart';
 import 'package:maosul2/core/util/styles.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
+import '../../../../core/cubit/app_cubit.dart';
 
 class TypesViewBody extends StatelessWidget {
   const TypesViewBody({super.key});
@@ -35,7 +36,14 @@ class TypesViewBody extends StatelessWidget {
           ),
           CustomElevatedButton(
               onPressed: () {
-                GoRouter.of(context).push(AppRouters.kLoginView);
+                AppRouter.navigateTo(
+                  context,
+                  LoginView(
+                    type: AppCubit.get(context).typeIndex == 0
+                        ? "client"
+                        : "provider",
+                  ),
+                );
               },
               text: LocaleKeys.done.tr()),
           const Spacer(),

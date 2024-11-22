@@ -24,7 +24,7 @@ class OrdersView extends StatelessWidget {
         key: scaffoldKey,
         drawer: const CustomDrawer(),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(110.h),
+          preferredSize: Size.fromHeight(130.h),
           child: CustomAppBar(
             right: 0.w,
             left: 0.w,

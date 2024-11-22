@@ -2,23 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:maosul2/core/widgets/app_cache_image.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
 import '../../../../core/util/styles.dart';
 
 class AddCartListView extends StatelessWidget {
-  const AddCartListView({super.key});
+  final List cartList;
+  const AddCartListView({super.key, required this.cartList});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
-        return ListView.builder(
+        return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: 2,
+          separatorBuilder: (context, index) => SizedBox(height: 12.h),
+          itemCount: cartList.length,
           itemBuilder: (context, int index) {
-            return Padding(
+            return SingleChildScrollView(
+              child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 5.h),
                 child: Column(
                   children: [
@@ -36,20 +40,29 @@ class AddCartListView extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      height: 60.h,
-                                      child: CircleAvatar(
-                                        radius: 50.r,
-                                        backgroundImage: const AssetImage(
-                                            'assets/images/images.jpeg'),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.sp),
+                                      child: SizedBox(
+                                        height: 60.h,
+                                        width: 60.w,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100.r),
+                                            child: AppCachedImage(
+                                                image: cartList[index]
+                                                        ["first_image"] ??
+                                                    "")),
                                       ),
                                     ),
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'اسم المنتج',
+                                          cartList[index]["service_title"]
+                                              .toString(),
                                           style: Styles.textStyle12.copyWith(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500,
@@ -57,19 +70,25 @@ class AddCartListView extends StatelessWidget {
                                         ),
                                         SizedBox(height: 11.w),
                                         Text(
-                                          '‏75ر.س',
+                                          '${cartList[index]["total_with_value"]}.رس',
                                           style: Styles.textStyle12,
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      width: 50.w,
-                                    ),
+                                    SizedBox(width: 60.w),
                                     Row(
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {
-                                            AppCubit.get(context).increseCount();
+                                            AppCubit.get(context)
+                                                .changeCartIndex(index: index);
+                                            AppCubit.get(context).updateCart(
+                                              cartId: cartList[index]["id"]
+                                                  .toString(),
+                                              count:
+                                                  (cartList[index]["count"] + 1)
+                                                      .toString(),
+                                            );
                                           },
                                           style: ElevatedButton.styleFrom(
                                               padding: EdgeInsets.zero,
@@ -87,22 +106,30 @@ class AddCartListView extends StatelessWidget {
                                           width: 47.w,
                                           height: 30.h,
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.grey,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r)),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20.r),
+                                          ),
                                           child: Center(
                                             child: Text(
-                                              AppCubit.get(context)
-                                                  .count
+                                              cartList[index]["count"]
                                                   .toString(),
                                             ),
                                           ),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                           AppCubit.get(context).decreseCount();
+                                            AppCubit.get(context)
+                                                .changeCartIndex(index: index);
+                                            AppCubit.get(context).updateCart(
+                                              cartId: cartList[index]["id"]
+                                                  .toString(),
+                                              count:
+                                                  (cartList[index]["count"] - 1)
+                                                      .toString(),
+                                            );
                                           },
                                           style: ElevatedButton.styleFrom(
                                               padding: EdgeInsets.zero,
@@ -124,10 +151,17 @@ class AddCartListView extends StatelessWidget {
                                   top: -10.h,
                                   left: 0.w,
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      AppCubit.get(context)
+                                          .changeCartIndex(index: index);
+                                      AppCubit.get(context).updateCart(
+                                          cartId:
+                                              cartList[index]["id"].toString(),
+                                          count: 0.toString());
+                                    },
                                     icon: Icon(
-                                      Icons.close,
-                                      size: 12.sp,
+                                      Icons.remove,
+                                      size: 15.sp,
                                       color: const Color(0xffEF0404),
                                     ),
                                   ),
@@ -139,7 +173,9 @@ class AddCartListView extends StatelessWidget {
                       ],
                     )
                   ],
-                ));
+                ),
+              ),
+            );
           },
         );
       },

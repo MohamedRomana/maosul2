@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:maosul2/Features/start/types/types_view.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/util/styles.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/cubit/app_cubit.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/assets_data.dart';
 import 'widgets/language_buttons.dart';
 
@@ -47,8 +47,7 @@ class LanguagesView extends StatelessWidget {
                   CacheHelper.setLang('en');
                   context.setLocale(const Locale('en'));
                 }
-
-                GoRouter.of(context).pushReplacement(AppRouters.kTypesView);
+                AppRouter.navigateTo(context, const TypesView());
               },
               text: 'تأكيد',
             ),

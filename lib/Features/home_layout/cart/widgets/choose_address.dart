@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maosul2/core/location/location.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
@@ -67,49 +68,56 @@ class ChooseAddress extends StatelessWidget {
                                 border: Border.all(color: kButtonColor),
                               ),
                               child: Center(
-                                  child: Container(
-                                height: 10.h,
-                                width: 10.w,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        AppCubit.get(context).addressIndex == 0
-                                            ? kButtonColor
-                                            : Colors.transparent),
-                              )),
+                                child: Container(
+                                  height: 10.h,
+                                  width: 10.w,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                          AppCubit.get(context).addressIndex ==
+                                                  0
+                                              ? kButtonColor
+                                              : Colors.transparent),
+                                ),
+                              ),
                             )
                           ]),
                     ),
                   ),
                   const Divider(
                     thickness: 1,
-                    color: Color(0xff154479),
+                    color: Colors.grey,
                   ),
                   InkWell(
                     onTap: () {
                       AppCubit.get(context).changeAddressIndex(1);
+                      showModalBottomSheet(
+                        context: context,
+                        enableDrag: false,
+                        builder: (context) => const Location(),
+                      );
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              LocaleKeys.newaddress.tr(),
-                              style: Styles.textStyle12
-                                  .copyWith(color: Colors.black),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.newaddress.tr(),
+                            style: Styles.textStyle12
+                                .copyWith(color: Colors.black),
+                          ),
+                          Container(
+                            height: 14.h,
+                            width: 14.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: kButtonColor),
                             ),
-                            Container(
-                              height: 14.h,
-                              width: 14.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: kButtonColor),
-                              ),
-                              child: Center(
-                                  child: Container(
+                            child: Center(
+                              child: Container(
                                 height: 10.h,
                                 width: 10.w,
                                 decoration: BoxDecoration(
@@ -118,9 +126,11 @@ class ChooseAddress extends StatelessWidget {
                                         AppCubit.get(context).addressIndex == 1
                                             ? kButtonColor
                                             : Colors.transparent),
-                              )),
-                            )
-                          ]),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(

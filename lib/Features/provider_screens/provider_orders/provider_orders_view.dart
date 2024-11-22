@@ -22,7 +22,7 @@ class ProviderOrderView extends StatelessWidget {
         key: scaffoldKey,
         drawer: const CustomDrawer(),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.h),
+          preferredSize: Size.fromHeight(130.h),
           child: CustomAppBar(
             scaffoldKey: scaffoldKey,
             title: LocaleKeys.orders.tr(),

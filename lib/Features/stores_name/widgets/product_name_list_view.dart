@@ -1,20 +1,46 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/Features/stores_name/widgets/add_note_bottom_sheet.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
+import 'package:maosul2/core/widgets/app_cache_image.dart';
+import 'package:maosul2/core/widgets/flash_message.dart';
 import '../../../core/constants.dart';
 import '../../../core/util/styles.dart';
 import '../../../generated/locale_keys.g.dart';
 
-class ProductNameListView extends StatelessWidget {
-  const ProductNameListView({super.key});
+class ProductNameListView extends StatefulWidget {
+  final String sectionId;
+  const ProductNameListView({super.key, required this.sectionId});
+
+  @override
+  State<ProductNameListView> createState() => _ProductNameListViewState();
+}
+
+class _ProductNameListViewState extends State<ProductNameListView> {
+  @override
+  void initState() {
+    super.initState();
+    AppCubit.get(context).getProducts(sectionId: widget.sectionId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {
+        if (state is AddToCartSuccess) {
+          showFlashMessage(
+              message: state.message,
+              type: FlashMessageType.success,
+              context: context);
+        } else if (state is AddToCartFailure) {
+          showFlashMessage(
+              message: state.error,
+              type: FlashMessageType.error,
+              context: context);
+        }
+      },
       builder: (context, state) {
         return ListView.separated(
           itemCount: AppCubit.get(context).products.length,
@@ -26,7 +52,11 @@ class ProductNameListView extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (context) {
-                    return const AddNoteBottomSheet();
+                    return AddNoteBottomSheet(
+                      product: {
+                        "id": AppCubit.get(context).products[index]['id']
+                      },
+                    );
                   },
                 );
               },
@@ -43,8 +73,8 @@ class ProductNameListView extends StatelessWidget {
                       padding: EdgeInsets.only(left: 16.w, right: 16.w),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50.r),
-                        child: CachedNetworkImage(
-                          imageUrl: AppCubit.get(context).products[index]
+                        child: AppCachedImage(
+                          image: AppCubit.get(context).products[index]
                               ['first_image'],
                           fit: BoxFit.fill,
                           height: 60.h,
@@ -71,7 +101,16 @@ class ProductNameListView extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        AppCubit.get(context)
+                            .changeAddToCartIndex(index: index);
+                        AppCubit.get(context).addToCart(
+                            serviceId: AppCubit.get(context)
+                                .products[index]['id']
+                                .toString(),
+                            notes: '',
+                            isAddButton: true);
+                      },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: Container(
@@ -82,11 +121,20 @@ class ProductNameListView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100.r),
                         ),
                         child: Center(
-                          child: Text(
-                            LocaleKeys.add.tr(),
-                            style: Styles.textStyle14
-                                .copyWith(color: Colors.white),
-                          ),
+                          child: state is AddToCartLoading &&
+                                  index == AppCubit.get(context).addToCartIndex
+                              ? SizedBox(
+                                  height: 20.h,
+                                  width: 20.w,
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  LocaleKeys.add.tr(),
+                                  style: Styles.textStyle14
+                                      .copyWith(color: Colors.white),
+                                ),
                         ),
                       ),
                     ),

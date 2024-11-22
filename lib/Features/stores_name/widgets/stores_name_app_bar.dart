@@ -1,17 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maosul2/Features/notifications/notification_view.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
-import '../../generated/locale_keys.g.dart';
-import '../constants.dart';
-import '../cubit/app_cubit.dart';
-import '../util/styles.dart';
+import '../../../core/constants.dart';
+import '../../../core/cubit/app_cubit.dart';
+import '../../../core/util/styles.dart';
+import '../../../generated/locale_keys.g.dart';
 
-class CustomSingleAppBar extends StatelessWidget {
-  const CustomSingleAppBar({
+class StoresNameAppBar extends StatelessWidget {
+  const StoresNameAppBar({
     super.key,
     required this.scaffoldKey,
   });
@@ -20,17 +19,18 @@ class CustomSingleAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        return AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: kPrimaryColor,
-          title: Row(
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: kPrimaryColor,
+      title: Column(
+        children: [
+          SizedBox(height: 20.h),
+          Row(
             children: [
               InkWell(
                 onTap: () => scaffoldKey.currentState!.openDrawer(),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsetsDirectional.only(end: 20.w, start: 8.w),
                   child: SvgPicture.asset(
                     "assets/svg/Shape 547.svg",
                     height: 15.h,
@@ -38,8 +38,10 @@ class CustomSingleAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(LocaleKeys.storename.tr(),
-                  style: Styles.textStyle18.copyWith(color: Colors.black)),
+              Text(
+                LocaleKeys.storename.tr(),
+                style: Styles.textStyle18.copyWith(color: Colors.black),
+              ),
               const Spacer(),
               InkWell(
                 onTap: () {
@@ -68,8 +70,8 @@ class CustomSingleAppBar extends StatelessWidget {
               ),
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

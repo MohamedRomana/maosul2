@@ -3,12 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/Features/home_layout/Home/widgets/categories_list_view.dart';
 import 'package:maosul2/Features/home_layout/Home/widgets/places_near_you_list_view.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
-import 'package:maosul2/core/util/app_router.dart';
+import 'package:maosul2/core/location/location.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/custom_drawer.dart';
 import '../../../core/util/styles.dart';
 import '../../../core/widgets/app_cache_image.dart';
@@ -57,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
               widget1: IconButton(
                 onPressed: () {
-                  GoRouter.of(context).push(AppRouters.kLocationView);
+                  AppRouter.navigateTo(context, const Location());
                 },
                 icon: Icon(
                   Icons.location_on,

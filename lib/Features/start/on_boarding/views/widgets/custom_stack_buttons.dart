@@ -1,10 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:maosul2/core/util/app_router.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import '../../../../../core/constants.dart';
 import '../../../../../core/util/styles.dart';
+import '../../../languages/views/languages_view.dart';
 
 class CustomStackButtons extends StatelessWidget {
   const CustomStackButtons({
@@ -45,13 +45,12 @@ class CustomStackButtons extends StatelessWidget {
             child: currentPage == onBoardingList.length - 1
                 ? ElevatedButton(
                     onPressed: () {
-                      GoRouter.of(context).pushReplacement(AppRouters.kLanguagesView);
+                      AppRouter.navigateTo(context, const LanguagesView());
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: kButtonColor, elevation: 0,
-                        minimumSize: Size(311.w, 48.h)
-                        ),
-                        
+                        backgroundColor: kButtonColor,
+                        elevation: 0,
+                        minimumSize: Size(311.w, 48.h)),
                     child: Text(
                       'ابدأ الأن',
                       style: Styles.textStyle16,

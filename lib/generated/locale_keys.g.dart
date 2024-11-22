@@ -76,5 +76,6 @@ abstract class  LocaleKeys {
   static const order_details = 'order_details';
   static const confirm_location = 'confirm_location';
   static const search = 'search';
+  static const addorder = 'addorder';
 
 }

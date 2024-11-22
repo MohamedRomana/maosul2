@@ -1,49 +1,63 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/custom_app_bar.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
-import '../../../core/util/app_router.dart';
 import '../../../core/widgets/custom_drawer.dart';
 import 'widgets/favorites_container.dart';
 import 'widgets/user_details.dart';
 import 'widgets/user_name_profile.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    AppCubit.get(context).showUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: const CustomDrawer(),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(180.h),
-        child: CustomAppBar(
-          scaffoldKey: scaffoldKey,
-          title: LocaleKeys.myaccount.tr(),
-          widget2: const UserNameProfile(),
-          widget1: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return Scaffold(
+          key: scaffoldKey,
+          drawer: const CustomDrawer(),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(115.h),
+            child: CustomAppBar(
+              scaffoldKey: scaffoldKey,
+              title: LocaleKeys.myaccount.tr(),
+              widget2: Container(),
+              widget1: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+              ),
+            ),
           ),
-        ),
-      ),
-      body: Column(
-        children: [
-          const UserDetails(),
-          SizedBox(height: 24.h),
-          InkWell(
-            onTap: () {
-              GoRouter.of(context).push(AppRouters.kFavouritesView);
-            },
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: const FavoritesContainer(),
-          )
-        ],
-      ),
+          body: state is ShowUserLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  color: Colors.grey,
+                ))
+              : Column(
+                  children: [
+                    const UserNameProfile(),
+                    SizedBox(height: 24.h),
+                    const UserDetails(),
+                    const FavoritesContainer()
+                  ],
+                ),
+        );
+      },
     );
   }
 }

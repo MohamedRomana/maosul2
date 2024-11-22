@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/core/widgets/app_cache_image.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import '../../../core/cubit/app_cubit.dart';
-import '../../../core/util/app_router.dart';
 import '../../../core/util/styles.dart';
+import '../../home_layout/home_layout.dart';
 
 class CategoriesGrideView extends StatelessWidget {
   const CategoriesGrideView({super.key});
@@ -29,7 +29,7 @@ class CategoriesGrideView extends StatelessWidget {
             AppCubit.get(context).storessData(
               sectionId: AppCubit.get(context).sections[index]['id'].toString(),
             );
-            GoRouter.of(context).pushReplacement(AppRouters.kHomeLayout);
+            AppRouter.navigateAndFinish(context, const HomeLayout());
           },
           child: Container(
             height: 80.h,

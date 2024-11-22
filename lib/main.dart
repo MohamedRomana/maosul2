@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/Features/auth/data/auth_cubit.dart';
+import 'package:maosul2/Features/start/splash/splash_view.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
-import 'package:maosul2/core/util/app_router.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/location/location_helper.dart';
@@ -15,7 +15,7 @@ void main() async {
   LocationHelper.determinePosition();
   await CacheHelper.init();
   await EasyLocalization.ensureInitialized();
-   Bloc.observer = MyBlocObserver();
+  Bloc.observer = MyBlocObserver();
 
   runApp(
     EasyLocalization(
@@ -48,14 +48,14 @@ class MaosulApp extends StatelessWidget {
           BlocProvider(create: (context) => AppCubit()),
           BlocProvider(create: (context) => AuthCubit()),
         ],
-        child: MaterialApp.router(
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
           builder: (context, child) => child!,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          routerConfig: AppRouters.routers,
           theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+          home: const SplashView(),
         ),
       ),
     );

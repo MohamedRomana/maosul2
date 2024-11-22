@@ -2,14 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/Features/auth/data/auth_cubit.dart';
+import 'package:maosul2/Features/auth/views/client_register/client_register.dart';
+import 'package:maosul2/Features/auth/views/forget_pass/activation_code_view.dart';
+import 'package:maosul2/Features/auth/views/provider_register/provider_register_view.dart';
+import 'package:maosul2/Features/home_layout/home_layout.dart';
+import 'package:maosul2/Features/provider_screens/provider_orders/provider_orders_view.dart';
 import 'package:maosul2/core/cache/cache_helper.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/flash_message.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/assets_data.dart';
 import '../../../../core/util/styles.dart';
 import '../../../../core/widgets/custom_elevated_button.dart';
@@ -54,11 +58,12 @@ class LoginView extends StatelessWidget {
                   BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
                       if (state is LogInSuccess) {
-                        GoRouter.of(context).pop();
-                        GoRouter.of(context).pushReplacement(
+                        AppRouter.pop(context);
+                        AppRouter.navigateAndPop(
+                            context,
                             CacheHelper.getUserType() == "client"
-                                ? AppRouters.kHomeLayout
-                                : AppRouters.kprovidreOrderView);
+                                ? const HomeLayout()
+                                : const ProviderOrderView());
 
                         _phoneController.clear();
                         _passController.clear();
@@ -104,7 +109,8 @@ class LoginView extends StatelessWidget {
                   GestureDetector(
                     child: GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).push(AppRouters.kActivationcode);
+                        AppRouter.navigateTo(
+                            context, const ActivationCodeView());
                       },
                       child: Text(
                         LocaleKeys.forgotPassword.tr(),
@@ -119,10 +125,10 @@ class LoginView extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if (AppCubit.get(context).typeIndex == 0) {
-                        GoRouter.of(context).push(AppRouters.kClientRegister);
+                        AppRouter.navigateTo(context, const ClientRegister());
                       } else {
-                        GoRouter.of(context)
-                            .push(AppRouters.kProviderRegisterView);
+                        AppRouter.navigateTo(
+                            context, const ProviderRegisterView());
                       }
                     },
                     child: Text(LocaleKeys.newUser.tr(),

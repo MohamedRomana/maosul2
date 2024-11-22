@@ -1,13 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:maosul2/Features/categories/categories_view.dart';
+import 'package:maosul2/core/widgets/app_cache_image.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/styles.dart';
 import '../../../../core/widgets/app_text.dart';
 
@@ -29,7 +29,7 @@ class CategoriesListView extends StatelessWidget {
                   AppText(text: LocaleKeys.categories.tr()),
                   InkWell(
                     onTap: () =>
-                        GoRouter.of(context).push(AppRouters.kCategoriesView),
+                        AppRouter.navigateTo(context, const CategoriesView()),
                     child: Text(
                       LocaleKeys.viewall.tr(),
                       style: Styles.textStyle12.copyWith(color: kButtonColor),
@@ -67,14 +67,12 @@ class CategoriesListView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CachedNetworkImage(
-                            imageUrl: AppCubit.get(context).sections[index]
+                          AppCachedImage(
+                            image: AppCubit.get(context).sections[index]
                                 ["image"],
                             height: 25.h,
                             width: 24.w,
                             fit: BoxFit.fill,
-                            errorWidget: (context, url, error) =>
-                                const Center(child: Icon(Icons.error)),
                           ),
                           Text(
                             AppCubit.get(context).sections[index]["title"],

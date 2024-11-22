@@ -24,14 +24,18 @@ class NotificationView extends StatelessWidget {
           bottomNavigationBar: const CustomBottomNav(),
           drawer: const CustomDrawer(),
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.h),
+            preferredSize: Size.fromHeight(130.h),
             child: CustomAppBar(
               title: LocaleKeys.notifications.tr(),
               scaffoldKey: scaffoldKey,
               widget2: Container(),
             ),
           ),
-          body: AppCubit.get(context).showNotification.isEmpty
+          body: 
+          state is GetNotificationLoading
+              ? const Center(child: CircularProgressIndicator(color: Colors.grey,))
+          :
+          AppCubit.get(context).showNotification.isEmpty
               ? Center(
                   child: Text(
                     'لا يوجد اشعارات',
@@ -53,9 +57,9 @@ class NotificationView extends StatelessWidget {
                           children: [
                             SlidableAction(
                               onPressed: (context) {
-                                AppCubit.get(context).deleteNotificationData(
-                                    id: AppCubit.get(context)
-                                        .showNotification[index]["id"],
+                                AppCubit.get(context).deleteNotification(
+                                    notificationId: AppCubit.get(context)
+                                        .showNotification[index]["id"].toString(),
                                     index: index);
                               },
                               backgroundColor: kPrimaryColor,

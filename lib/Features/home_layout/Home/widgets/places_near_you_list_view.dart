@@ -1,15 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
+import 'package:maosul2/core/widgets/app_cache_image.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/styles.dart';
+import '../../../../core/widgets/app_router.dart';
 import '../../../../core/widgets/app_text.dart';
+import '../../../stores_name/stores_name_view.dart';
 
 class PlacesNearYouListView extends StatelessWidget {
   const PlacesNearYouListView({super.key});
@@ -37,14 +37,20 @@ class PlacesNearYouListView extends StatelessWidget {
             separatorBuilder: (BuildContext context, int index) =>
                 SizedBox(width: 10.w),
             itemBuilder: (context, index) => InkWell(
-              onTap: () =>
-                  GoRouter.of(context).push(AppRouters.kStoresNameView),
+              onTap: () {
+                AppRouter.navigateTo(
+                  context,
+                  StoresNameView(
+                    id: AppCubit.get(context).near_providers[index]["id"],
+                  ),
+                );
+              },
               child: Stack(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.r),
-                    child: CachedNetworkImage(
-                      imageUrl: AppCubit.get(context).near_providers[index]
+                    child: AppCachedImage(
+                      image: AppCubit.get(context).near_providers[index]
                           ['avatar'],
                       width: 200.w,
                       height: 120.h,

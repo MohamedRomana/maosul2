@@ -6,8 +6,9 @@ import '../../../core/util/styles.dart';
 import '../../../generated/locale_keys.g.dart';
 
 class OrderNoteContainer extends StatelessWidget {
+  final Map orderDetails;
   const OrderNoteContainer({
-    super.key,
+    super.key, required this.orderDetails,
   });
 
   @override
@@ -35,7 +36,7 @@ class OrderNoteContainer extends StatelessWidget {
                   height: 7.h,
                 ),
                 Text(
-                  'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ ',
+                 orderDetails['desc'],
                   style: Styles.textStyle14.copyWith(
                     color: Colors.grey,
                   ),

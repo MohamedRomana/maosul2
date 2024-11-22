@@ -8,8 +8,9 @@ import '../../../../../core/location/location.dart';
 import '../../../../../core/util/styles.dart';
 
 class ClientDataContainer extends StatelessWidget {
+  final Map providerData;
   const ClientDataContainer({
-    super.key,
+    super.key, required this.providerData,
   });
 
   @override
@@ -47,7 +48,7 @@ class ClientDataContainer extends StatelessWidget {
                       ),
                       SizedBox(width: 11.w),
                       Text(
-                        'اسم الزبون: على محمد',
+                        'اسم الزبون: ${providerData['user_name']}',
                         style: Styles.textStyle16.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w500),
                       ),
@@ -77,7 +78,7 @@ class ClientDataContainer extends StatelessWidget {
                             color: kButtonColor, size: 25.sp),
                         SizedBox(width: 11.w),
                         Text(
-                          'مكان التوصيل : شارع الملز - الرياض',
+                          'مكان التوصيل : ${providerData['user_address']}',
                           style: Styles.textStyle16.copyWith(
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),
@@ -108,7 +109,7 @@ class ClientDataContainer extends StatelessWidget {
                             color: kButtonColor, size: 25.sp),
                         SizedBox(width: 11.w),
                         Text(
-                          'وقت التوصيل : 2:25 م',
+                          'وقت التوصيل : ${providerData['order_time']}',
                           style: Styles.textStyle16.copyWith(
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),
@@ -129,7 +130,7 @@ class ClientDataContainer extends StatelessWidget {
                       ),
                       SizedBox(width: 11.w),
                       Text(
-                        'رقم الطلب : 12586',
+                        'رقم الطلب : ${providerData['id']}',
                         style: Styles.textStyle16.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w500),
                       ),

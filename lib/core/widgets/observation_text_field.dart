@@ -6,8 +6,10 @@ import '../../generated/locale_keys.g.dart';
 import '../util/styles.dart';
 
 class ObservationTextField extends StatelessWidget {
+  final TextEditingController notesController;
+
   const ObservationTextField({
-    super.key,
+    super.key, required this.notesController,
   });
 
   @override
@@ -37,6 +39,7 @@ class ObservationTextField extends StatelessWidget {
           height: 80.h,
           child: TextField(
             maxLines: 5,
+            controller: notesController,
             decoration: InputDecoration(
               hintText: LocaleKeys.recordyourobservations.tr(),
               hintStyle: Styles.textStyle12.copyWith(color: Colors.grey),

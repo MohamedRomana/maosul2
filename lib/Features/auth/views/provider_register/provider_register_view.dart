@@ -1,18 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/Features/auth/data/auth_cubit.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/util/assets_data.dart';
 import 'package:maosul2/core/util/styles.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/core/widgets/flash_message.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
-import '../../../../core/util/app_router.dart';
+import '../active_code/activation_pin_code_view.dart';
 import 'widgets/agree_terms.dart';
 import 'widgets/field.dart';
 import 'widgets/image_row.dart';
@@ -79,8 +78,9 @@ class ProviderRegisterView extends StatelessWidget {
                             context: context,
                           );
                         } else if (state is ProviderRegisterSuccess) {
-                          GoRouter.of(context)
-                              .pushReplacement(AppRouters.kActivationPincode);
+                          AppRouter.navigateAndPop(
+                              context, const ActivationPinCodeView());
+
                           AuthCubit.get(context).identityImage.clear();
                           AuthCubit.get(context).licenseImage.clear();
                           AuthCubit.get(context).carImage.clear();

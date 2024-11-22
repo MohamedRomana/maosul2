@@ -89,7 +89,8 @@ class CodegenLoader extends AssetLoader{
   "accept": "قبول",
   "order_details": "تفاصيل الطلب",
   "confirm_location": "تأكيد الموقع",
-  "search": "بحث"
+  "search": "بحث",
+  "addorder": "اضافة طلب"
 };
 static const Map<String,dynamic> en = {
   "userType": "User Type",
@@ -166,7 +167,8 @@ static const Map<String,dynamic> en = {
   "accept": "Accept",
   "order_details": "Order Details",
   "confirm_location": "Confirm Location",
-  "search": "Search"
+  "search": "Search",
+  "addorder": "Add Order"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": ar, "en": en};
 }

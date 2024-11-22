@@ -1,14 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
+import 'package:maosul2/core/widgets/app_cache_image.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
-import '../../../../core/util/app_router.dart';
 import '../../../../core/util/styles.dart';
+import '../../../../core/widgets/app_router.dart';
 import '../../../../core/widgets/app_text.dart';
+import '../../../stores_name/stores_name_view.dart';
 
 class BestOffersListView extends StatelessWidget {
   const BestOffersListView({super.key});
@@ -37,16 +37,22 @@ class BestOffersListView extends StatelessWidget {
                 SizedBox(width: 10.w),
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () =>
-                    GoRouter.of(context).push(AppRouters.kStoresNameView),
+                onTap: () {
+                  AppRouter.navigateTo(
+                    context,
+                    StoresNameView(
+                      id: AppCubit.get(context).best_providers[index]["id"],
+                    ),
+                  );
+                },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 child: Stack(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
-                      child: CachedNetworkImage(
-                        imageUrl: AppCubit.get(context).best_providers[index]
+                      child: AppCachedImage(
+                        image: AppCubit.get(context).best_providers[index]
                             ['avatar'],
                         width: 140.w,
                         height: 150.h,

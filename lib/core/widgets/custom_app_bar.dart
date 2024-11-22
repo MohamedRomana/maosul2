@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:maosul2/Features/Search/search_view.dart';
+import 'package:maosul2/Features/home_layout/home_layout.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
-import 'package:maosul2/core/util/app_router.dart';
+import 'package:maosul2/core/widgets/app_router.dart';
+import '../../Features/notifications/notification_view.dart';
 import '../../generated/locale_keys.g.dart';
 import '../util/styles.dart';
 
@@ -40,7 +42,7 @@ class CustomAppBar extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  height: 125.h,
+                  height: 115.h,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     color: kPrimaryColor,
@@ -67,8 +69,8 @@ class CustomAppBar extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               AppCubit.get(context).showNotificationData();
-                              GoRouter.of(context)
-                                  .push(AppRouters.kNotificationView);
+                              AppRouter.navigateAndFinish(
+                                  context, const NotificationView());
                             },
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -87,16 +89,19 @@ class CustomAppBar extends StatelessWidget {
                                   child: PositionedDirectional(
                                     end: 0,
                                     child: Container(
+                                      width: 15.w,
                                       decoration: const BoxDecoration(
                                           color: kButtonColor,
                                           shape: BoxShape.circle),
-                                      child: Text(
-                                        AppCubit.get(context)
-                                            .notificationCount
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25.sp,
+                                      child: Center(
+                                        child: Text(
+                                          AppCubit.get(context)
+                                              .notificationCount
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10.sp,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -111,8 +116,8 @@ class CustomAppBar extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 if (AppCubit.get(context).typeIndex == 0) {
-                                  GoRouter.of(context)
-                                      .push(AppRouters.kHomeLayout);
+                                  AppRouter.navigateAndFinish(
+                                      context, const HomeLayout());
                                 } else {
                                   Navigator.pop(context);
                                 }
@@ -155,7 +160,10 @@ class CustomAppBar extends StatelessWidget {
                           controller: _searchController,
                           onSubmitted: (value) {
                             if (_searchController.text.isNotEmpty) {
-                              GoRouter.of(context).push(AppRouters.kSearchView);
+                              AppCubit.get(context)
+                                  .getSearch(title: _searchController.text);
+                              AppRouter.navigateAndFinish(
+                                  context, const SearchView());
                               _searchController.clear();
                             }
                           },
