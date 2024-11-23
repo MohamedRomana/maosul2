@@ -53,6 +53,7 @@ class _ProfileViewState extends State<ProfileView> {
                     const UserNameProfile(),
                     SizedBox(height: 24.h),
                     const UserDetails(),
+                    SizedBox(height: 24.h),
                     const FavoritesContainer()
                   ],
                 ),

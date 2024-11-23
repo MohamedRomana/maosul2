@@ -380,4 +380,23 @@ class AuthCubit extends Cubit<AuthState> {
       emit(ProviderRegisterFailure(error: data["msg"]));
     }
   }
+  Future logOut() async {
+    emit(LogOutLoading());
+    http.Response response =
+        await http.post(Uri.parse("${baseUrl}api/logout"), body: {
+      "lang": CacheHelper.getLang(),
+      "user_id": CacheHelper.getUserId(),
+      "device_id": CacheHelper.getDeviceToken(),
+    });
+    Map<String, dynamic> data = jsonDecode(response.body);
+    debugPrint(data.toString());
+
+    if (data["key"] == 1) {
+      CacheHelper.setUserId("");
+      CacheHelper.setUserToken("");
+      emit(LogOutSuccess(message: data["msg"]));
+    } else {
+      emit(LogOutFailure(error: data["msg"]));
+    }
+  }
 }

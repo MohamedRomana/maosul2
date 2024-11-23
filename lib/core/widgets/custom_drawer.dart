@@ -1,18 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maosul2/Features/auth/data/auth_cubit.dart';
 import 'package:maosul2/Features/categories/categories_view.dart';
 import 'package:maosul2/Features/drawer/about_app/about_app_view.dart';
 import 'package:maosul2/Features/drawer/call_us/call_us_view.dart';
 import 'package:maosul2/Features/drawer/privacy_policy/privacy_policy_view.dart';
 import 'package:maosul2/Features/drawer/technical_support/technical_support_view.dart';
+import 'package:maosul2/Features/home_layout/home_layout.dart';
 import 'package:maosul2/Features/provider_screens/provider_profile/provider_profile.dart';
+import 'package:maosul2/Features/start/types/types_view.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cache/cache_helper.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/util/assets_data.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
+import 'package:maosul2/core/widgets/flash_message.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../Features/provider_screens/provider_orders/provider_orders_view.dart';
 import '../util/styles.dart';
@@ -308,9 +313,56 @@ class CustomDrawer extends StatelessWidget {
                         }
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
+            ),
+            const Opacity(
+              opacity: 0.38,
+              child: Divider(
+                color: Color(0xff0D335D),
+                endIndent: 15,
+                indent: 15,
+                thickness: 1.5,
+              ),
+            ),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is LogOutSuccess) {
+                  AppCubit.get(context).userInfo.clear();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  showFlashMessage(
+                      message: state.message,
+                      type: FlashMessageType.success,
+                      context: context);
+                  if (CacheHelper.getUserType() == "client") {
+                    AppRouter.navigateAndFinish(context, const HomeLayout());
+                  } else {
+                    AppRouter.navigateAndFinish(context, const TypesView());
+                  }
+                  CacheHelper.setUserType("");
+                } else if (state is LogOutFailure) {
+                  showFlashMessage(
+                      message: state.error,
+                      type: FlashMessageType.error,
+                      context: context);
+                }
+              },
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    AppRouter.navigateAndFinish(context, const TypesView());
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: Text(
+                    'تسجيل خروج',
+                    style: Styles.textStyle16.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w400),
+                  ),
+                );
+              },
             ),
           ],
         ),

@@ -24,10 +24,21 @@ final _phoneController = TextEditingController();
 final _passController = TextEditingController();
 String phoneCode = "";
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   final String type;
   const LoginView({super.key, required this.type});
 
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  @override
+  void initState() {
+    _phoneController.clear();
+    _passController.clear();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
@@ -85,7 +96,7 @@ class LoginView extends StatelessWidget {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             await AuthCubit.get(context).login(
-                              userType: type,
+                              userType: widget.type,
                               phoneCode: phoneCode,
                               phone: _phoneController.text,
                               password: _passController.text,

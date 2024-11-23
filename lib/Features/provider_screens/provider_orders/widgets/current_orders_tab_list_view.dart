@@ -36,7 +36,7 @@ class _CurrentOrdersTabListViewState extends State<CurrentOrdersTabListView> {
               : AppCubit.get(context).providerOrdersList.isEmpty
                   ? Center(
                       child: Text(
-                        'لا يوجد طلبات منتهيه',
+                        'لا يوجد طلبات حاليه',
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ),
                     )
@@ -45,7 +45,11 @@ class _CurrentOrdersTabListViewState extends State<CurrentOrdersTabListView> {
                           AppCubit.get(context).providerOrdersList.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () => AppRouter.navigateTo(
-                            context, ProviderOrdersDetails(orderData: AppCubit.get(context).providerOrdersList[index],)),
+                            context,
+                            ProviderOrdersDetails(
+                              orderData: AppCubit.get(context)
+                                  .providerOrdersList[index],
+                            )),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: Padding(
