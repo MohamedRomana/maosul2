@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/Features/home_layout/home_layout.dart';
-import 'package:maosul2/Features/start/on_boarding/views/on_boarding_view.dart';
-import 'package:maosul2/Features/start/types/types_view.dart';
+import 'package:maosul2/Features/provider_screens/provider_orders/provider_orders_view.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
 import '../../../core/cache/cache_helper.dart';
 import '../../../core/util/assets_data.dart';
+import '../languages/views/languages_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -25,9 +25,11 @@ class _SplashViewState extends State<SplashView>
       () {
         CacheHelper.getLang() != ""
             ? CacheHelper.getUserId() != ""
-                ? AppRouter.navigateAndPop(context, const HomeLayout())
-                : AppRouter.navigateAndPop(context, const TypesView())
-            : AppRouter.navigateAndPop(context, const OnBoardingView());
+                ? CacheHelper.getUserType() == "client"
+                    ? AppRouter.navigateAndPop(context, const HomeLayout())
+                    : AppRouter.navigateAndPop(context, const ProviderOrderView())
+                : AppRouter.navigateAndPop(context, const HomeLayout())
+            : AppRouter.navigateAndPop(context, const LanguagesView());
       },
     );
     super.initState();

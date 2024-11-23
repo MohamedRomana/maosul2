@@ -75,70 +75,69 @@ class _CartViewState extends State<CartView> {
           }
         },
         builder: (context, state) {
-          return state is ShowCartLoading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                  color: Colors.grey,
-                ))
-              : SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: AppCubit.get(context).cartList.isEmpty
-                      ? const Center(child: CartEmpty())
-                      : Column(
-                          children: [
-                            AddCartListView(
-                                cartList: AppCubit.get(context).cartList),
-                            SizedBox(height: 10.h),
-                            ObservationTextField(
-                                notesController: _notesController),
-                            SizedBox(height: 19.h),
-                            Padding(
-                              padding: EdgeInsetsDirectional.symmetric(
-                                  horizontal: 16.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TotalContainer(
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: state is ShowCartLoading &&
+                    AppCubit.get(context).cartList.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.grey,
+                    ),
+                  )
+                : AppCubit.get(context).cartList.isEmpty
+                    ? const Center(child: CartEmpty())
+                    : Column(
+                        children: [
+                          AddCartListView(
+                              cartList: AppCubit.get(context).cartList),
+                          SizedBox(height: 10.h),
+                          ObservationTextField(
+                              notesController: _notesController),
+                          SizedBox(height: 19.h),
+                          Padding(
+                            padding: EdgeInsetsDirectional.symmetric(
+                                horizontal: 16.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TotalContainer(
                                     cartDetailes:
-                                        AppCubit.get(context).cartDetailes,
-                                  ),
-                                  const ChoosePayment(),
-                                  const ChooseAddress(),
-                                  SizedBox(
-                                    height: 23.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      CustomElevatedButton(
-                                        onPressed: () {
-                                          AppCubit.get(context).storeOrder();
-                                        },
-                                        text: LocaleKeys.processorder.tr(),
-                                        minimumSize: Size(165.w, 48.h),
-                                      ),
-                                      SizedBox(width: 10.w),
-                                      CustomElevatedButton(
-                                        onPressed: () {
-                                          AppCubit.get(context)
-                                              .changeScreenIndex(index: 0);
-                                        },
-                                        text: LocaleKeys.addorder.tr(),
-                                        style: Styles.textStyle16
-                                            .copyWith(color: Colors.grey),
-                                        minimumSize: Size(165.w, 48.h),
-                                        backgroundColor: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 32.h,
-                                  ),
-                                ],
-                              ),
+                                        AppCubit.get(context).cartDetailes),
+                                const ChoosePayment(),
+                                const ChooseAddress(),
+                                SizedBox(height: 23.h),
+                                Row(
+                                  children: [
+                                    CustomElevatedButton(
+                                      onPressed: () {
+                                        AppCubit.get(context).storeOrder();
+                                      },
+                                      text: LocaleKeys.processorder.tr(),
+                                      minimumSize: Size(165.w, 48.h),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    CustomElevatedButton(
+                                      onPressed: () {
+                                        AppCubit.get(context)
+                                            .changeScreenIndex(index: 0);
+                                      },
+                                      text: LocaleKeys.addorder.tr(),
+                                      style: Styles.textStyle16
+                                          .copyWith(color: Colors.grey),
+                                      minimumSize: Size(165.w, 48.h),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 32.h,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                );
+                          ),
+                        ],
+                      ),
+          );
         },
       ),
     );

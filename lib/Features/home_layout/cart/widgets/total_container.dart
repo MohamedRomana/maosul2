@@ -36,7 +36,7 @@ class TotalContainer extends StatelessWidget {
               height: 10.h,
             ),
             Container(
-              height: 175.h,
+              height: 185.h,
               width: 343.w,
               decoration: BoxDecoration(
                 color: kPrimaryColor,
