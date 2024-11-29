@@ -142,7 +142,7 @@ class _LocationState extends State<Location> {
                       ),
                     ),
                   ),
-                  AppCubit.get(context).typeIndex == 0
+                AppCubit.get(context).typeIndex == 0
                       ? Positioned(
                           bottom: 50.h,
                           right: 10.w,

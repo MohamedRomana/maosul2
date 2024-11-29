@@ -89,7 +89,7 @@ class ChangePasswordView extends StatelessWidget {
                       controller: _passController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'كلمة المرور مطلوبه';
+                          return LocaleKeys.password_required.tr();
                         } else {
                           return null;
                         }
@@ -121,7 +121,7 @@ class ChangePasswordView extends StatelessWidget {
                       validator: (value) {
                         if (_passController.text !=
                             _confirmPassController.text) {
-                          return 'كلمة المرور غير متطابقة';
+                          return LocaleKeys.password_mismatch.tr();
                         } else {
                           return null;
                         }

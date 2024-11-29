@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/Features/auth/data/auth_cubit.dart';
 import 'package:maosul2/Features/start/splash/splash_view.dart';
+import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache_helper.dart';
@@ -16,6 +17,8 @@ void main() async {
   await CacheHelper.init();
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+
+  debugPrint(CacheHelper.getUserId());
 
   runApp(
     EasyLocalization(
@@ -54,7 +57,15 @@ class MaosulApp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: Colors.green, // Cursor color
+              selectionColor:
+                  kPrimaryColor, // Highlighted text background color
+              selectionHandleColor: kButtonColor, // Handle color
+            ),
+          ),
           home: const SplashView(),
         ),
       ),

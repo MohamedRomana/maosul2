@@ -1,16 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maosul2/Features/provider_screens/provider_profile/provider_profile_edit/widget/edit_image_row.dart';
+import 'package:maosul2/Features/provider_profile_edit/widget/edit_image_row.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/flash_message.dart';
-import '../../../../core/constants.dart';
-import '../../../../core/util/styles.dart';
-import '../../../../core/widgets/custom_app_bar.dart';
-import '../../../../core/widgets/custom_drawer.dart';
-import '../../../../core/widgets/custom_text_field.dart';
-import '../../../../generated/locale_keys.g.dart';
+import '../../core/constants.dart';
+import '../../core/util/styles.dart';
+import '../../core/widgets/app_router.dart';
+import '../../core/widgets/custom_app_bar.dart';
+import '../drawer/custom_drawer.dart';
+import '../../core/widgets/custom_text_field.dart';
+import '../../generated/locale_keys.g.dart';
 
 final _nameController = TextEditingController();
 final _emailController = TextEditingController();
@@ -33,6 +36,20 @@ class ProviderProfileEdit extends StatelessWidget {
             child: CustomAppBar(
               scaffoldKey: scaffoldKey,
               title: 'تعديل البيانات',
+              widget1: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: InkWell(
+                  onTap: () {
+                    AppRouter.pop(context);
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 21.sp,
+                  ),
+                ),
+              ),
               widget2: Container(),
             ),
           ),
@@ -71,15 +88,13 @@ class ProviderProfileEdit extends StatelessWidget {
                   keyboardType: TextInputType.phone,
                   horizontal: 20,
                   vertical: 8,
-                  hintText: userInfo['full_phone'],
+                  hintText: '+${userInfo['full_phone']}',
                   hintStyle: Styles.textStyle14.copyWith(color: Colors.black),
                   prefixIcon: const Icon(Icons.phone_in_talk),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 25.h),
-                  child: EditImageRow(
-                    userInfo: userInfo,
-                  ),
+                  child: EditImageRow(userInfo: userInfo),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -94,16 +109,19 @@ class ProviderProfileEdit extends StatelessWidget {
                   ),
                   child: BlocConsumer<AppCubit, AppState>(
                     listener: (context, state) {
-                      if (state is UpdateProfileSuccess) {
+                      if (state is UpdateProviderProfileSuccess) {
                         Navigator.pop(context);
                         showFlashMessage(
                             message: state.message,
                             type: FlashMessageType.success,
                             context: context);
+                        AppCubit.get(context).identityImage.clear();
+                        AppCubit.get(context).licenseImage.clear();
+                        AppCubit.get(context).carImage.clear();
                         _nameController.clear();
                         _emailController.clear();
                         _phoneController.clear();
-                      } else if (state is UpdateProfileFailure) {
+                      } else if (state is UpdateProviderProfileFailure) {
                         showFlashMessage(
                             message: state.error,
                             type: FlashMessageType.error,
@@ -112,11 +130,28 @@ class ProviderProfileEdit extends StatelessWidget {
                     },
                     builder: (context, state) {
                       return ElevatedButton(
-                        onPressed: () {
-                          AppCubit.get(context).updateProfile(
-                            firstName: _nameController.text,
-                            email: _emailController.text,
-                            phone: _phoneController.text,
+                        onPressed: () async {
+                          if (AppCubit.get(context).identityImage.isNotEmpty) {
+                            await AppCubit.get(context).uploadIdentityImage();
+                          }
+                          if (AppCubit.get(context).licenseImage.isNotEmpty) {
+                            await AppCubit.get(context).uploadLicenseImage();
+                          }
+
+                          if (AppCubit.get(context).carImage.isNotEmpty) {
+                            await AppCubit.get(context).uploadCarImage();
+                          }
+
+                          AppCubit.get(context).updateProviderProfile(
+                            firstName: _nameController.text.isEmpty
+                                ? AppCubit.get(context).userInfo["first_name"]
+                                : _nameController.text,
+                            email: _emailController.text.isEmpty
+                                ? AppCubit.get(context).userInfo["email"]
+                                : _emailController.text,
+                            phone: _phoneController.text.isEmpty
+                                ? AppCubit.get(context).userInfo['full_phone']
+                                : _phoneController.text,
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -126,10 +161,15 @@ class ProviderProfileEdit extends StatelessWidget {
                           ),
                           minimumSize: Size(343.w, 50.h),
                         ),
-                        child: state is UpdateProfileLoading ? const CircularProgressIndicator(color: Colors.white,) : Text(
-                          LocaleKeys.save.tr(),
-                          style: Styles.textStyle16,
-                        ),
+                        child: state is UpdateProviderProfileLoading ||
+                                state is UploadImageLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                LocaleKeys.save.tr(),
+                                style: Styles.textStyle16,
+                              ),
                       );
                     },
                   ),

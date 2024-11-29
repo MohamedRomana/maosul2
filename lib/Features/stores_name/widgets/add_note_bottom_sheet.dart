@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:maosul2/core/cache/cache_helper.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/app_cache_image.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
@@ -10,6 +11,7 @@ import 'package:maosul2/core/widgets/custom_text_field.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../core/constants.dart';
 import '../../../core/util/styles.dart';
+import '../../../core/widgets/flash_message.dart';
 
 final notesController = TextEditingController();
 
@@ -88,11 +90,20 @@ class _AddNoteBottomSheetState extends State<AddNoteBottomSheet> {
                                         children: [
                                           IconButton(
                                             onPressed: () {
-                                              AppCubit.get(context).addFav(
-                                                  serviceId:
-                                                      AppCubit.get(context)
-                                                          .productData["id"]
-                                                          .toString());
+                                              if (CacheHelper.getUserId() !=
+                                                  "") {
+                                                AppCubit.get(context).addFav(
+                                                    serviceId:
+                                                        AppCubit.get(context)
+                                                            .productData["id"]
+                                                            .toString());
+                                              } else {
+                                                showFlashMessage(
+                                                  context: context,
+                                                  type: FlashMessageType.error,
+                                                  message: LocaleKeys.login_first.tr(),
+                                                );
+                                              }
                                             },
                                             icon: Icon(
                                               (AppCubit.get(context)

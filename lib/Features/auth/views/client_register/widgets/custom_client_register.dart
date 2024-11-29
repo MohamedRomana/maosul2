@@ -41,7 +41,7 @@ class CustomClientRegister extends StatelessWidget {
               prefixIcon: const Icon(Icons.person),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "اسم المستخدم مطلوب";
+                  return LocaleKeys.username_required.tr();
                 } else {
                   return null;
                 }
@@ -51,7 +51,7 @@ class CustomClientRegister extends StatelessWidget {
             CustomTextField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "رقم الجوال مطلوب";
+                  return LocaleKeys.mobile_number_required.tr();
                 } else {
                   return null;
                 }
@@ -122,7 +122,7 @@ class CustomClientRegister extends StatelessWidget {
               child: CustomTextField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "الموقع مطلوب";
+                    return LocaleKeys.location_required.tr();
                   } else {
                     return null;
                   }
@@ -137,7 +137,7 @@ class CustomClientRegister extends StatelessWidget {
             CustomTextField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "كلمة السر مطلوبة";
+                  return LocaleKeys.password_mismatch.tr();
                 } else {
                   return null;
                 }
@@ -164,7 +164,7 @@ class CustomClientRegister extends StatelessWidget {
             CustomTextField(
               validator: (value) {
                 if (passController.text != confirmPassController.text) {
-                  return "كلمة السر غير متطابقة";
+                  return LocaleKeys.password_mismatch.tr();
                 } else {
                   return null;
                 }

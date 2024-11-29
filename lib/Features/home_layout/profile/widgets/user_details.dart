@@ -13,8 +13,8 @@ class UserDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 203.h,
         width: 343.w,
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         decoration: BoxDecoration(
           color: kFourthColor,
           borderRadius: BorderRadius.circular(10.r),
@@ -33,16 +33,20 @@ class UserDetails extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100.r),
               ),
             ),
-            CustomTextField(
-              keyboardType: TextInputType.emailAddress,
-              horizontal: 10,
-              vertical: 5,
-              hintText: AppCubit.get(context).userInfo["email"],
-              prefixIcon: const Icon(Icons.mail),
-              enabled: false,
-              disabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(100.r),
+            Visibility(
+              visible:
+                  AppCubit.get(context).userInfo["email"] == "" ? false : true,
+              child: CustomTextField(
+                keyboardType: TextInputType.emailAddress,
+                horizontal: 10,
+                vertical: 5,
+                hintText: AppCubit.get(context).userInfo["email"],
+                prefixIcon: const Icon(Icons.mail),
+                enabled: false,
+                disabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
               ),
             ),
             CustomTextField(

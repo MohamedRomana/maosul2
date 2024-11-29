@@ -31,7 +31,7 @@ class ClientRegister extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
-          AppRouter.navigateTo(context, const ActivationPinCodeView());
+          AppRouter.navigateAndPop(context, const ActivationPinCodeView());
           _nameController.clear();
           _phoneController.clear();
           _mailController.clear();
@@ -105,7 +105,6 @@ class ClientRegister extends StatelessWidget {
                               lng: AppCubit.get(context).lng.toString(),
                             );
                           }
-                          // GoRouter.of(context).push(AppRouters.kActivationcode);
                         },
                         child: state is RegisterLoading
                             ? const CircularProgressIndicator(

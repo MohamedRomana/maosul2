@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maosul2/Features/Search/search_view.dart';
 import 'package:maosul2/Features/home_layout/home_layout.dart';
+import 'package:maosul2/Features/provider_screens/provider_orders/provider_orders_view.dart';
+import 'package:maosul2/core/cache/cache_helper.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
@@ -115,11 +117,12 @@ class CustomAppBar extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: InkWell(
                               onTap: () {
-                                if (AppCubit.get(context).typeIndex == 0) {
+                                if (CacheHelper.getUserType() == "client") {
                                   AppRouter.navigateAndFinish(
                                       context, const HomeLayout());
                                 } else {
-                                  Navigator.pop(context);
+                                  AppRouter.navigateAndFinish(
+                                      context, const ProviderOrderView());
                                 }
                               },
                               child: Icon(
@@ -172,6 +175,7 @@ class CustomAppBar extends StatelessWidget {
                               Icons.search,
                               color: kThirdColor,
                             ),
+                            
                             hintText: LocaleKeys.writehere.tr(),
                             hintStyle: Styles.textStyle12,
                             filled: true,

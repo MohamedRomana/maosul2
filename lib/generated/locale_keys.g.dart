@@ -77,5 +77,36 @@ abstract class  LocaleKeys {
   static const confirm_location = 'confirm_location';
   static const search = 'search';
   static const addorder = 'addorder';
+  static const no_products = 'no_products';
+  static const no_searches = 'no_searches';
+  static const no_canceled_orders = 'no_canceled_orders';
+  static const no_notifications = 'no_notifications';
+  static const no_stores = 'no_stores';
+  static const no_current_orders = 'no_current_orders';
+  static const no_completed_orders = 'no_completed_orders';
+  static const no_canceled_requests = 'no_canceled_requests';
+  static const no_favorites_operations = 'no_favorites_operations';
+  static const welcome_message = 'welcome_message';
+  static const login_first = 'login_first';
+  static const logout = 'logout';
+  static const confirm_logout = 'confirm_logout';
+  static const name = 'name';
+  static const your_message = 'your_message';
+  static const preferred_time = 'preferred_time';
+  static const prefer_whatsapp = 'prefer_whatsapp';
+  static const send = 'send';
+  static const message_text = 'message_text';
+  static const enter_email = 'enter_email';
+  static const full_name = 'full_name';
+  static const password_required = 'password_required';
+  static const location_required = 'location_required';
+  static const mobile_number_required = 'mobile_number_required';
+  static const username_required = 'username_required';
+  static const password_mismatch = 'password_mismatch';
+  static const car_type = 'car_type';
+  static const car_type_required = 'car_type_required';
+  static const image_upload_required = 'image_upload_required';
+  static const required_message = 'required_message';
+  static const required_email = 'required_email';
 
 }

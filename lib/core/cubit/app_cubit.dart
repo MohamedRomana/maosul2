@@ -43,6 +43,7 @@ class AppCubit extends Cubit<AppState> {
     address = newAddress;
     emit(ChangeIndex());
   }
+
   List<File> identityImage = [];
   Future<void> getIdentityImage() async {
     final picker = ImagePicker();
@@ -89,6 +90,102 @@ class AppCubit extends Cubit<AppState> {
   void removeCarImage() {
     carImage.clear();
     emit(RemoveImageSuccess());
+  }
+
+String? identityImageUrl;
+  Future uploadIdentityImage() async {
+    emit(UploadImageLoading());
+    final request =
+        http.MultipartRequest('POST', Uri.parse("${baseUrl}api/upload-image"));
+    request.fields['lang'] = CacheHelper.getLang();
+
+    for (var image in identityImage) {
+      var stream = http.ByteStream(image.openRead());
+      var length = await image.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        stream,
+        length,
+        filename: image.path.split('/').last,
+      );
+      request.files.add(multipartFile);
+    }
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    Map<String, dynamic> data = jsonDecode(responseBody);
+    identityImageUrl = data["app_url"];
+    debugPrint("imageUrl is $identityImageUrl");
+
+    if (data["key"] == 1) {
+      emit(UploadImageSuccess());
+    } else {
+      emit(UploadImageFailure());
+    }
+  }
+
+  String? licenseImageUrl;
+  Future uploadLicenseImage() async {
+    emit(UploadImageLoading());
+    final request =
+        http.MultipartRequest('POST', Uri.parse("${baseUrl}api/upload-image"));
+    request.fields['lang'] = CacheHelper.getLang();
+
+    for (var image in licenseImage) {
+      var stream = http.ByteStream(image.openRead());
+      var length = await image.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        stream,
+        length,
+        filename: image.path.split('/').last,
+      );
+      request.files.add(multipartFile);
+    }
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    Map<String, dynamic> data = jsonDecode(responseBody);
+    licenseImageUrl = data["app_url"];
+    debugPrint("imageUrl is $licenseImageUrl");
+
+    if (data["key"] == 1) {
+      emit(UploadImageSuccess());
+    } else {
+      emit(UploadImageFailure());
+    }
+  }
+
+  String? carImageUrl;
+  Future uploadCarImage() async {
+    emit(UploadImageLoading());
+    final request =
+        http.MultipartRequest('POST', Uri.parse("${baseUrl}api/upload-image"));
+    request.fields['lang'] = CacheHelper.getLang();
+
+    for (var image in carImage) {
+      var stream = http.ByteStream(image.openRead());
+      var length = await image.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        stream,
+        length,
+        filename: image.path.split('/').last,
+      );
+      request.files.add(multipartFile);
+    }
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    Map<String, dynamic> data = jsonDecode(responseBody);
+    carImageUrl = data["app_url"];
+    debugPrint("imageUrl is $carImageUrl");
+
+    if (data["key"] == 1) {
+      emit(UploadImageSuccess());
+    } else {
+      emit(UploadImageFailure());
+    }
   }
 
   int currentIndex = 2;
@@ -203,6 +300,7 @@ class AppCubit extends Cubit<AppState> {
       near_providers = data["data"]["near_providers"];
       notificationCount = data["notification_count"];
       emit(GetHomeDataSuccess());
+      getCurrentLocation();
     } else {
       emit(GetHomeDataFailure(message: data["msg"]));
     }
@@ -243,6 +341,7 @@ class AppCubit extends Cubit<AppState> {
       emit(GetNotificationFailure(message: data["msg"]));
     }
   }
+
 
   Future deleteNotification(
       {required String notificationId, required int index}) async {
@@ -391,14 +490,16 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Future getProducts({required String sectionId}) async {
+  Future getProducts(
+      {required String sectionId, required String providerId}) async {
     emit(GetProductsLoading());
     try {
       http.Response response = await http.post(
         Uri.parse("${baseUrl}api/services"),
         body: {
           "lang": CacheHelper.getLang(),
-          "section_id": sectionId,
+          if (sectionId != "0") "section_id": sectionId,
+          "provider_id": providerId,
         },
       ).timeout(const Duration(milliseconds: 8000));
 
@@ -667,6 +768,7 @@ class AppCubit extends Cubit<AppState> {
       }
     }
   }
+
   List favList = [];
   Future showFav() async {
     emit(ShowFavLoading());
@@ -745,6 +847,7 @@ class AppCubit extends Cubit<AppState> {
       }
     }
   }
+
   Map userInfo = {};
   Future showUser() async {
     emit(ShowUserLoading());
@@ -818,7 +921,7 @@ class AppCubit extends Cubit<AppState> {
       }
     }
   }
-  
+
   List providerOrdersList = [];
   Future showProviderOrders({required String status}) async {
     if (lat == null) {
@@ -900,5 +1003,124 @@ class AppCubit extends Cubit<AppState> {
       }
     }
   }
-}
 
+  Future contactUs(
+      {required String name,
+      required String email,
+      required String message}) async {
+    emit(ContactUsLoading());
+    http.Response response = await http
+        .post(Uri.parse("${baseUrl}api/contact-us"), body: {
+      "lang": CacheHelper.getLang(),
+      "name": name,
+      "email": email,
+      "message": message
+    });
+    Map<String, dynamic> data = jsonDecode(response.body);
+    debugPrint(data.toString());
+
+    if (data["key"] == 1) {
+      emit(ContactUsSuccess(message: data["msg"]));
+    } else {
+      emit(ContactUsFailure(error: data["msg"]));
+    }
+  }
+
+  String desc = "";
+  Future aboutApp() async {
+    emit(AboutAppLoading());
+    http.Response response =
+        await http.post(Uri.parse("${baseUrl}api/page"), body: {
+      "lang": CacheHelper.getLang(),
+      "title": "about",
+    });
+    Map<String, dynamic> data = jsonDecode(response.body);
+    desc = data["data"]["desc"];
+    debugPrint(desc);
+    if (data["key"] == 1) {
+      emit(AboutAppSuccess());
+    } else {
+      emit(AboutAppFailure());
+    }
+  }
+  String conditionTitle = "";
+  Future condition() async {
+    emit(ConditionLoading());
+    try {
+      http.Response response =
+          await http.post(Uri.parse("${baseUrl}api/page"), body: {
+        "lang": CacheHelper.getLang(),
+        "title": "condition",
+      }).timeout(const Duration(milliseconds: 8000));
+
+      if (response.statusCode == 500) {
+        emit(ServerError());
+      } else {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        conditionTitle = data["data"]["desc"] ?? "";
+        debugPrint("conditionTitle is $conditionTitle");
+
+        if (data["key"] == 1) {
+          emit(ConditionSuccess());
+        } else {
+          emit(ConditionFailure());
+        }
+      }
+    } catch (error) {
+      if (error is TimeoutException) {
+        // Handle timeout-specific logic here
+        debugPrint("Request timed out");
+        emit(Timeoutt());
+      }
+    }
+  }
+Future updateProviderProfile({
+    required String firstName,
+    required String phone,
+    required String email,
+  }) async {
+    emit(UpdateProviderProfileLoading());
+    try {
+      http.Response response =
+          await http.post(Uri.parse("${baseUrl}api/update-user"), body: {
+        "lang": CacheHelper.getLang(),
+        "user_id": CacheHelper.getUserId(),
+        "first_name": firstName,
+        "phone": phone,
+        "email": email,
+        "id_image": identityImage.isEmpty
+            ? userInfo["id_image"]
+            : identityImageUrl ?? "",
+        "license_image": licenseImage.isEmpty
+            ? userInfo["license_image"]
+            : licenseImageUrl ?? "",
+        "ecommercy_image":
+            carImage.isEmpty ? userInfo["ecommercy_image"] : carImageUrl ?? "",
+      }).timeout(const Duration(milliseconds: 8000));
+
+      if (response.statusCode == 500) {
+        emit(ServerError());
+      } else {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        debugPrint(data.toString());
+
+        if (data["key"] == 1) {
+          emit(UpdateProviderProfileSuccess(message: data["msg"]));
+          showUser();
+        } else {
+          debugPrint(data["msg"]);
+          emit(UpdateProviderProfileFailure(error: data["msg"]));
+        }
+      }
+    } catch (error) {
+      if (error is TimeoutException) {
+        debugPrint("Request timed out");
+        emit(Timeoutt());
+      } else {
+        emit(UpdateProviderProfileFailure(error: error.toString()));
+      }
+    }
+  }
+
+
+}

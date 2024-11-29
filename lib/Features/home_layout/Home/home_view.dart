@@ -9,7 +9,7 @@ import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/location/location.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
-import 'package:maosul2/core/widgets/custom_drawer.dart';
+import 'package:maosul2/Features/drawer/custom_drawer.dart';
 import '../../../core/util/styles.dart';
 import '../../../core/widgets/app_cache_image.dart';
 import '../../../core/widgets/custom_app_bar.dart';
@@ -67,7 +67,8 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
-          body: state is GetHomeDataLoading
+          body: state is GetHomeDataLoading &&
+                  AppCubit.get(context).sections.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(color: Colors.grey),
                 )

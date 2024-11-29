@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/custom_app_bar.dart';
 import 'package:maosul2/core/widgets/custom_bottom_nav.dart';
-import 'package:maosul2/core/widgets/custom_drawer.dart';
+import 'package:maosul2/Features/drawer/custom_drawer.dart';
 import '../../generated/locale_keys.g.dart';
 import 'widgets/order_details_container.dart';
 import 'widgets/order_note_container.dart';

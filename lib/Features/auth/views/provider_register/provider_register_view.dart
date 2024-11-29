@@ -8,7 +8,6 @@ import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/util/assets_data.dart';
 import 'package:maosul2/core/util/styles.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
-import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/core/widgets/flash_message.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../active_code/activation_pin_code_view.dart';
@@ -99,7 +98,7 @@ class ProviderRegisterView extends StatelessWidget {
                         }
                       },
                       builder: (context, state) {
-                        return CustomElevatedButton(
+                        return ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               if (AuthCubit.get(context)
@@ -108,7 +107,8 @@ class ProviderRegisterView extends StatelessWidget {
                                   AuthCubit.get(context).licenseImage.isEmpty &&
                                   AuthCubit.get(context).carImage.isEmpty) {
                                 showFlashMessage(
-                                  message: "مطلوب تحميل الصور",
+                                  message:
+                                      LocaleKeys.image_upload_required.tr(),
                                   type: FlashMessageType.warning,
                                   context: context,
                                 );
@@ -141,7 +141,21 @@ class ProviderRegisterView extends StatelessWidget {
                               }
                             }
                           },
-                          text: LocaleKeys.logIn.tr(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: kButtonColor,
+                            minimumSize: Size(311.w, 48.h),
+                          ),
+                          child: state is ProviderRegisterLoading ||
+                                  state is UploadImageLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  LocaleKeys.logIn.tr(),
+                                  style: Styles.textStyle16,
+                                ),
                         );
                       },
                     ),

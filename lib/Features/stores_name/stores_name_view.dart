@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,8 @@ import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/util/styles.dart';
 import '../../core/widgets/custom_bottom_nav.dart';
-import '../../core/widgets/custom_drawer.dart';
+import '../drawer/custom_drawer.dart';
+import '../../generated/locale_keys.g.dart';
 import 'widgets/image_details_details.dart';
 import 'widgets/product_name_list_view.dart';
 import 'widgets/stores_name_app_bar.dart';
@@ -43,73 +45,68 @@ class _StoresNameViewState extends State<StoresNameView> {
                   child: CircularProgressIndicator(
                   color: Colors.grey,
                 ))
-              : DefaultTabController(
-                  initialIndex: 0,
-                  length: AppCubit.get(context).subSections.length,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.h),
-                        child: const ImageDetailsStack(),
+              : AppCubit.get(context).subSections.isEmpty
+                  ? Center(
+                      child: Text(
+                        LocaleKeys.no_products.tr(),
+                        style: Styles.textStyle18,
                       ),
-                      Container(
-                        color: kPrimaryColor,
-                        child: TabBar(
-                          onTap: (index) {
-                            if (index == 0) {
-                              AppCubit.get(context).getStoreData(
-                                  providerId: AppCubit.get(context)
-                                      .storeData["id"]
-                                      .toString());
-                            } else {
-                              AppCubit.get(context).getProducts(
-                                sectionId: AppCubit.get(context)
-                                    .subSections[index]["id"]
-                                    .toString(),
-                              );
-                            }
-                          },
-                          physics: const BouncingScrollPhysics(),
-                          isScrollable: true,
-                          labelColor: Colors.white,
-                          labelStyle: Styles.textStyle12,
-                          indicatorColor: kButtonColor,
-                          dividerColor: Colors.transparent,
-                          indicatorPadding:
-                              EdgeInsets.symmetric(horizontal: -15.w),
-                          indicator: BoxDecoration(
-                            color: kButtonColor,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.r),
+                    )
+                  : DefaultTabController(
+                      initialIndex: 0,
+                      length: AppCubit.get(context).subSections.length,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            child: const ImageDetailsStack(),
+                          ),
+                          Container(
+                            color: kPrimaryColor,
+                            child: TabBar(
+                              onTap: (index) {},
+                              physics: const BouncingScrollPhysics(),
+                              isScrollable: true,
+                              labelColor: Colors.white,
+                              labelStyle: Styles.textStyle12,
+                              indicatorColor: kButtonColor,
+                              dividerColor: Colors.transparent,
+                              indicatorPadding:
+                                  EdgeInsets.symmetric(horizontal: -15.w),
+                              indicator: BoxDecoration(
+                                color: kButtonColor,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.r),
+                                ),
+                              ),
+                              unselectedLabelColor: Colors.grey,
+                              tabs: List.generate(
+                                AppCubit.get(context).subSections.length,
+                                (index) => Tab(
+                                    text: AppCubit.get(context)
+                                        .subSections[index]["title"]),
+                              ),
                             ),
                           ),
-                          unselectedLabelColor: Colors.grey,
-                          tabs: List.generate(
-                            AppCubit.get(context).subSections.length,
-                            (index) => Tab(
-                                text: AppCubit.get(context).subSections[index]
-                                    ["title"]),
+                          SizedBox(
+                            height: 20.h,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: List.generate(
-                            AppCubit.get(context).subSections.length,
-                            (index) => ProductNameListView(
-                              sectionId: AppCubit.get(context)
-                                  .subSections[index]["id"]
-                                  .toString(),
-                            ),
+                          Expanded(
+                            child: TabBarView(
+                                    children: List.generate(
+                                      AppCubit.get(context).subSections.length,
+                                      (index) => ProductNameListView(
+                                        sectionId: AppCubit.get(context)
+                                            .subSections[index]["id"]
+                                            .toString(),
+                                        providerId: widget.id.toString(),
+                                      ),
+                                    ),
+                                  ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
         );
       },
     );

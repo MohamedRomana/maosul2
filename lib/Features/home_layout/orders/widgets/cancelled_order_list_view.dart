@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/Features/order_details/order_details_view.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
+import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
 import '../../../../core/util/styles.dart';
@@ -36,7 +38,7 @@ class _CancelledOrderListViewState extends State<CancelledOrderListView> {
               : AppCubit.get(context).ordersList.isEmpty
                   ? Center(
                       child: Text(
-                        'لا يوجد طلبات ملغيه',
+                        LocaleKeys.no_canceled_requests.tr(),
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ),
                     )

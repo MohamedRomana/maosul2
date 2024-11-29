@@ -24,8 +24,8 @@ class FavoritesContainer extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: Container(
-        height: 43.h,
         width: 343.w,
+        padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
           color: kFourthColor,
           borderRadius: BorderRadius.circular(7.r),

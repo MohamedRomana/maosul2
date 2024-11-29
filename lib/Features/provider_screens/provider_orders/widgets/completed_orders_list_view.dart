@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/util/styles.dart';
+import '../../../../generated/locale_keys.g.dart';
 
 class CompletedOrdersListView extends StatefulWidget {
   const CompletedOrdersListView({
@@ -36,7 +38,7 @@ class _CompletedOrdersListViewState extends State<CompletedOrdersListView> {
               : AppCubit.get(context).providerOrdersList.isEmpty
                   ? Center(
                       child: Text(
-                        'لا يوجد طلبات منتهيه',
+                        LocaleKeys.no_completed_orders.tr(),
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ),
                     )

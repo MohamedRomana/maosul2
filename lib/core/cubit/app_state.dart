@@ -238,3 +238,46 @@ final class ChangeOrderStatusFailure extends AppState {
 final class ChooseImageSuccess extends AppState {}
 
 final class RemoveImageSuccess extends AppState {}
+
+final class ContactUsLoading extends AppState {}
+
+final class ContactUsSuccess extends AppState {
+  final String message;
+
+  ContactUsSuccess({required this.message});
+}
+
+final class ContactUsFailure extends AppState {
+  final String error;
+  ContactUsFailure({required this.error});
+}
+
+final class AboutAppLoading extends AppState {}
+
+final class AboutAppSuccess extends AppState {}
+
+final class AboutAppFailure extends AppState {}
+
+final class ConditionLoading extends AppState {}
+
+final class ConditionSuccess extends AppState {}
+
+final class ConditionFailure extends AppState {}
+
+final class UploadImageLoading extends AppState {}
+
+final class UploadImageSuccess extends AppState {}
+
+final class UploadImageFailure extends AppState {}
+
+final class UpdateProviderProfileLoading extends AppState {}
+
+final class UpdateProviderProfileSuccess extends AppState {
+  final String message;
+  UpdateProviderProfileSuccess({required this.message});
+}
+
+final class UpdateProviderProfileFailure extends AppState {
+  final String error;
+  UpdateProviderProfileFailure({required this.error});
+}

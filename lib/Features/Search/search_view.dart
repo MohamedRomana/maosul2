@@ -8,7 +8,7 @@ import '../../core/constants.dart';
 import '../../core/widgets/app_cache_image.dart';
 import '../../core/widgets/custom_app_bar.dart';
 import '../../core/widgets/custom_bottom_nav.dart';
-import '../../core/widgets/custom_drawer.dart';
+import '../drawer/custom_drawer.dart';
 import '../../generated/locale_keys.g.dart';
 import '../stores_name/widgets/add_note_bottom_sheet.dart';
 
@@ -40,7 +40,7 @@ class SearchView extends StatelessWidget {
                 : AppCubit.get(context).searchList.isEmpty
                     ? Center(
                         child: Text(
-                        'لا يوجد عمليات بحث',
+                        LocaleKeys.no_searches.tr(),
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ))
                     : GridView.builder(
@@ -51,7 +51,7 @@ class SearchView extends StatelessWidget {
                           top: 16.h,
                           bottom: 20.h,
                         ),
-                        itemCount: AppCubit.get(context).favList.length,
+                        itemCount: AppCubit.get(context).searchList.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: 10.h,

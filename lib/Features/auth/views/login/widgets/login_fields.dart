@@ -32,7 +32,7 @@ class LoginFields extends StatelessWidget {
             controller: phoneController,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'الرقم مطلوب';
+                return LocaleKeys.mobile_number_required.tr();
               } else {
                 return null;
               }
@@ -77,7 +77,7 @@ class LoginFields extends StatelessWidget {
             controller: passController,
             validator: (value) {
               if (value!.isEmpty) {
-                return "كلمة المرور مطلوبه";
+                return LocaleKeys.password_required.tr();
               } else {
                 return null;
               }

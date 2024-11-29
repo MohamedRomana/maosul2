@@ -59,7 +59,7 @@ class ActivationCodeView extends StatelessWidget {
                 child: CustomTextField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'رقم الجوال مطلوب';
+                      return LocaleKeys.mobile_number_required.tr();
                     } else {
                       return null;
                     }

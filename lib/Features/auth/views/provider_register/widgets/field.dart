@@ -46,7 +46,7 @@ class _FieldsState extends State<Fields> {
             controller: widget.nameController,
             validator: (value) {
               if (value!.isEmpty) {
-                return "اسم المستخدم مطلوب";
+                return LocaleKeys.username_required.tr();
               } else {
                 return null;
               }
@@ -59,7 +59,7 @@ class _FieldsState extends State<Fields> {
             controller: widget.phoneController,
             validator: (value) {
               if (value!.isEmpty) {
-                return "رقم الجوال مطلوب";
+                return LocaleKeys.mobile_number_required.tr();
               } else {
                 return null;
               }
@@ -124,12 +124,12 @@ class _FieldsState extends State<Fields> {
             controller: widget.carController,
             validator: (value) {
               if (value!.isEmpty) {
-                return "نوع السياره مطلوب";
+                return LocaleKeys.car_type_required.tr();
               } else {
                 return null;
               }
             },
-            hintText: 'نوع السياره',
+            hintText: LocaleKeys.car_type.tr(),
             prefixIcon: const Icon(Icons.car_rental),
             suffixIcon: Padding(
               padding: EdgeInsetsDirectional.only(end: 10.w),
@@ -161,13 +161,15 @@ class _FieldsState extends State<Fields> {
             controller: widget.passController,
             validator: (value) {
               if (value!.isEmpty) {
-                return "كلمة المرور مطلوبة";
+                return LocaleKeys.password_required.tr();
               } else {
                 return null;
               }
             },
             obscureText:
-                AuthCubit.get(context).providerRegisterIsSecure1 == true ? false : true,
+                AuthCubit.get(context).providerRegisterIsSecure1 == true
+                    ? false
+                    : true,
             hintText: LocaleKeys.password.tr(),
             prefixIcon: const Icon(Icons.lock),
             suffixIcon: InkWell(
@@ -192,13 +194,15 @@ class _FieldsState extends State<Fields> {
             validator: (value) {
               if (widget.passController.text !=
                   widget.confirmPassController.text) {
-                return "كلمة المرور غير متطابقة";
+                return LocaleKeys.password_mismatch.tr();
               } else {
                 return null;
               }
             },
             obscureText:
-                AuthCubit.get(context).providerRegisterIsSecure2 == true ? false : true,
+                AuthCubit.get(context).providerRegisterIsSecure2 == true
+                    ? false
+                    : true,
             hintText: LocaleKeys.confirmPassword.tr(),
             prefixIcon: const Icon(
               Icons.lock,

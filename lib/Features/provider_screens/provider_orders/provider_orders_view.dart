@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/core/constants.dart';
 import 'package:maosul2/core/widgets/custom_app_bar.dart';
-import 'package:maosul2/core/widgets/custom_drawer.dart';
+import 'package:maosul2/Features/drawer/custom_drawer.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../core/util/styles.dart';
 import 'widgets/canceled_orders_list_view.dart';

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
+import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/cubit/app_cubit.dart';
 import '../../../../core/util/styles.dart';
@@ -37,7 +39,7 @@ class _CopmeletedOrderListViewState extends State<CopmeletedOrderListView> {
               : AppCubit.get(context).ordersList.isEmpty
                   ? Center(
                       child: Text(
-                        'لا يوجد طلبات منتهيه',
+                        LocaleKeys.no_completed_orders.tr(),
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ),
                     )

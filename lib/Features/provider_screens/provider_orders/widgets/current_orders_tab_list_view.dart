@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/app_router.dart';
+import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/util/styles.dart';
 import '../orders_details/provider_orders_details.dart';
@@ -36,7 +38,7 @@ class _CurrentOrdersTabListViewState extends State<CurrentOrdersTabListView> {
               : AppCubit.get(context).providerOrdersList.isEmpty
                   ? Center(
                       child: Text(
-                        'لا يوجد طلبات حاليه',
+                       LocaleKeys.no_current_orders.tr(),
                         style: Styles.textStyle24.copyWith(color: Colors.grey),
                       ),
                     )

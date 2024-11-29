@@ -13,63 +13,65 @@ class ProviderDetails extends StatefulWidget {
 }
 
 class _ProviderDetailsState extends State<ProviderDetails> {
-  @override
-  void initState() {
-    AppCubit.get(context).showUser();
-    super.initState();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         return Center(
           child: Container(
-            height: 203.h,
             width: 343.w,
             decoration: BoxDecoration(
               color: kFourthColor,
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomTextField(
-                  horizontal: 10,
-                  vertical: 5,
-                  hintText: AppCubit.get(context).userInfo["first_name"],
-                  prefixIcon: const Icon(Icons.person),
-                  enabled: false,
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(100.r),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomTextField(
+                    horizontal: 10,
+                    vertical: 5,
+                    hintText: AppCubit.get(context).userInfo["first_name"],
+                    prefixIcon: const Icon(Icons.person),
+                    enabled: false,
+                    disabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(100.r),
+                    ),
                   ),
-                ),
-                CustomTextField(
-                  keyboardType: TextInputType.emailAddress,
-                  horizontal: 10,
-                  vertical: 5,
-                  hintText: AppCubit.get(context).userInfo["email"],
-                  prefixIcon: const Icon(Icons.mail),
-                  enabled: false,
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(100.r),
+                  Visibility(
+                    visible: AppCubit.get(context).userInfo["email"] == ""
+                        ? false
+                        : true,
+                    child: CustomTextField(
+                      keyboardType: TextInputType.emailAddress,
+                      horizontal: 10,
+                      vertical: 5,
+                      hintText: AppCubit.get(context).userInfo["email"],
+                      prefixIcon: const Icon(Icons.mail),
+                      enabled: false,
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                    ),
                   ),
-                ),
-                CustomTextField(
-                  keyboardType: TextInputType.phone,
-                  horizontal: 10,
-                  vertical: 5,
-                  hintText: AppCubit.get(context).userInfo["full_phone"],
-                  prefixIcon: const Icon(Icons.phone_in_talk),
-                  enabled: false,
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(100.r),
+                  CustomTextField(
+                    keyboardType: TextInputType.phone,
+                    horizontal: 10,
+                    vertical: 5,
+                    hintText: '+${AppCubit.get(context).userInfo["full_phone"]}',
+                    prefixIcon: const Icon(Icons.phone_in_talk),
+                    enabled: false,
+                    disabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(100.r),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

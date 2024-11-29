@@ -69,6 +69,7 @@ class _LoginViewState extends State<LoginView> {
                   BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
                       if (state is LogInSuccess) {
+                        AppCubit.get(context).changeScreenIndex(index: 2);
                         AppRouter.pop(context);
                         AppRouter.navigateAndPop(
                             context,
@@ -79,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                         _phoneController.clear();
                         _passController.clear();
                         showFlashMessage(
-                          message: 'اهلا بك في موصول',
+                          message: LocaleKeys.welcome_message.tr(),
                           type: FlashMessageType.success,
                           context: context,
                         );

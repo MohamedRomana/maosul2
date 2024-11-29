@@ -6,7 +6,7 @@ import 'package:maosul2/Features/home_layout/stores/widgets/stores_list_view.dar
 import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/custom_drawer.dart';
+import '../../drawer/custom_drawer.dart';
 
 class StoresView extends StatelessWidget {
   const StoresView({super.key});
@@ -29,12 +29,7 @@ class StoresView extends StatelessWidget {
               ),
             ),
           ),
-          body: state is GetProvidersLoading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                  color: Colors.grey,
-                ))
-              : const StoresListView(),
+          body: const StoresListView(),
         );
       },
     );

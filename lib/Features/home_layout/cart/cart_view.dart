@@ -7,8 +7,10 @@ import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/util/styles.dart';
 import 'package:maosul2/core/widgets/custom_app_bar.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
-import '../../../core/widgets/custom_drawer.dart';
+import '../../../core/cache/cache_helper.dart';
+import '../../drawer/custom_drawer.dart';
 import '../../../core/widgets/flash_message.dart';
+import '../../../core/widgets/login_first.dart';
 import '../../../core/widgets/observation_text_field.dart';
 import '../../../generated/locale_keys.g.dart';
 import 'widgets/cart_empty.dart';
@@ -29,7 +31,9 @@ class _CartViewState extends State<CartView> {
   @override
   initState() {
     super.initState();
-    AppCubit.get(context).showCart();
+    if (CacheHelper.getUserId() != "") {
+      AppCubit.get(context).showCart();
+    }
   }
 
   @override
@@ -75,69 +79,73 @@ class _CartViewState extends State<CartView> {
           }
         },
         builder: (context, state) {
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: state is ShowCartLoading &&
-                    AppCubit.get(context).cartList.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.grey,
-                    ),
-                  )
-                : AppCubit.get(context).cartList.isEmpty
-                    ? const Center(child: CartEmpty())
-                    : Column(
-                        children: [
-                          AddCartListView(
-                              cartList: AppCubit.get(context).cartList),
-                          SizedBox(height: 10.h),
-                          ObservationTextField(
-                              notesController: _notesController),
-                          SizedBox(height: 19.h),
-                          Padding(
-                            padding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 16.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+          return CacheHelper.getUserId() == ""
+              ? const LoginFirst()
+              : SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: state is ShowCartLoading &&
+                          AppCubit.get(context).cartList.isEmpty
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.grey,
+                          ),
+                        )
+                      : AppCubit.get(context).cartList.isEmpty
+                          ? const Center(child: CartEmpty())
+                          : Column(
                               children: [
-                                TotalContainer(
-                                    cartDetailes:
-                                        AppCubit.get(context).cartDetailes),
-                                const ChoosePayment(),
-                                const ChooseAddress(),
-                                SizedBox(height: 23.h),
-                                Row(
-                                  children: [
-                                    CustomElevatedButton(
-                                      onPressed: () {
-                                        AppCubit.get(context).storeOrder();
-                                      },
-                                      text: LocaleKeys.processorder.tr(),
-                                      minimumSize: Size(165.w, 48.h),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    CustomElevatedButton(
-                                      onPressed: () {
-                                        AppCubit.get(context)
-                                            .changeScreenIndex(index: 0);
-                                      },
-                                      text: LocaleKeys.addorder.tr(),
-                                      style: Styles.textStyle16
-                                          .copyWith(color: Colors.grey),
-                                      minimumSize: Size(165.w, 48.h),
-                                      backgroundColor: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 32.h,
+                                AddCartListView(
+                                    cartList: AppCubit.get(context).cartList),
+                                SizedBox(height: 10.h),
+                                ObservationTextField(
+                                    notesController: _notesController),
+                                SizedBox(height: 19.h),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                      horizontal: 16.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TotalContainer(
+                                          cartDetailes: AppCubit.get(context)
+                                              .cartDetailes),
+                                      const ChoosePayment(),
+                                      const ChooseAddress(),
+                                      SizedBox(height: 23.h),
+                                      Row(
+                                        children: [
+                                          CustomElevatedButton(
+                                            onPressed: () {
+                                              AppCubit.get(context)
+                                                  .storeOrder();
+                                            },
+                                            text: LocaleKeys.processorder.tr(),
+                                            minimumSize: Size(165.w, 48.h),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomElevatedButton(
+                                            onPressed: () {
+                                              AppCubit.get(context)
+                                                  .changeScreenIndex(index: 0);
+                                            },
+                                            text: LocaleKeys.addorder.tr(),
+                                            style: Styles.textStyle16
+                                                .copyWith(color: Colors.grey),
+                                            minimumSize: Size(165.w, 48.h),
+                                            backgroundColor: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 32.h,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-          );
+                );
         },
       ),
     );

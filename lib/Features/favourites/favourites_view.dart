@@ -7,7 +7,7 @@ import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/widgets/custom_app_bar.dart';
 import '../../core/util/styles.dart';
 import '../../core/widgets/custom_bottom_nav.dart';
-import '../../core/widgets/custom_drawer.dart';
+import '../drawer/custom_drawer.dart';
 import '../../generated/locale_keys.g.dart';
 
 class FavouritesView extends StatelessWidget {
@@ -38,7 +38,7 @@ class FavouritesView extends StatelessWidget {
               : AppCubit.get(context).favList.isEmpty
                   ? Center(
                       child: Text(
-                      'لا يوجد عمليات في المفضلة',
+                      LocaleKeys.no_favorites_operations.tr(),
                       style: Styles.textStyle24.copyWith(color: Colors.grey),
                     ))
                   : const FavouritesItemsListView(),

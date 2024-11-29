@@ -11,7 +11,7 @@ import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/core/widgets/flash_message.dart';
 import '../../../../core/location/location.dart';
 import '../../../../core/util/styles.dart';
-import '../../../../core/widgets/custom_drawer.dart';
+import '../../../drawer/custom_drawer.dart';
 import '../../../../generated/locale_keys.g.dart';
 import 'widgets/client_data_container.dart';
 

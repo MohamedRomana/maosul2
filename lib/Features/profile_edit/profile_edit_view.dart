@@ -9,7 +9,7 @@ import 'package:maosul2/core/widgets/flash_message.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
 import '../../core/util/styles.dart';
 import '../../core/widgets/custom_bottom_nav.dart';
-import '../../core/widgets/custom_drawer.dart';
+import '../drawer/custom_drawer.dart';
 import '../../core/widgets/custom_text_field.dart';
 
 final _nameController = TextEditingController();
@@ -63,9 +63,14 @@ class ProfileEditView extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       horizontal: 20,
                       vertical: 8,
-                      hintText: AppCubit.get(context).userInfo["email"],
-                      hintStyle:
-                          Styles.textStyle14.copyWith(color: Colors.black),
+                      hintText: AppCubit.get(context).userInfo["email"] == ""
+                          ? LocaleKeys.email.tr()
+                          : AppCubit.get(context).userInfo["email"],
+                      hintStyle: Styles.textStyle14.copyWith(
+                        color: AppCubit.get(context).userInfo["email"] == ""
+                            ? Colors.grey
+                            : Colors.black,
+                      ),
                       prefixIcon: const Icon(Icons.mail),
                     ),
                     CustomTextField(
