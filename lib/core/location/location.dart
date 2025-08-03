@@ -13,7 +13,6 @@ import 'package:maosul2/core/cubit/app_cubit.dart';
 import 'package:maosul2/core/location/location_helper.dart';
 import 'package:maosul2/core/widgets/custom_elevated_button.dart';
 import 'package:maosul2/generated/locale_keys.g.dart';
-
 import '../../Features/auth/views/client_register/client_register.dart';
 
 class Location extends StatefulWidget {
